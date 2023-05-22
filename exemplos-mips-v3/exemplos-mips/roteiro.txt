@@ -1,0 +1,42 @@
+Hello world
+
+Entrada e saida
+
+Soma entre registradores
+
+Soma registrador com constante
+
+Comparação com e sem sinal
+
+IF
+
+Loops
+
+Uso da stack
+
+Rotinas
+
+Rotinas recursivas
+
+
+Leitura e escrita da memória
+
+Leitura e escrita de diferentes posições da memória (array)
+
+deslocamento de bits
+
+and
+
+or
+
+not
+
+
+
+
+
+
+
+
+
+
