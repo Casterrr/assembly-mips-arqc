@@ -23,7 +23,7 @@
     ## Neste trecho, a depender da escolha do usuário, será executada uma função diferente
     beq   $s0, 1, fahrenheit_celcius       # Se for escolhido 1, chama a função que converte fahrenheit para célcius                                  
     beq   $s0, 2, fibonacci                # Se for escolhido 2, chama a função que mostra o enésimo termo de fibonacci
-    beq   $s0, 3, enesimo_par                # Se for escolhido 3, chama a função que mostra o enésimo termo número par
+    beq   $s0, 3, enesimo_par              # Se for escolhido 3, chama a função que mostra o enésimo termo número par
     beq   $s0, 4, finalizar_programa       # Se for escolhido 4, chama a função que vai encerrar o programa
 
                                     
@@ -69,10 +69,14 @@
     jr $ra   # Retornará o valor da função aonde ela foi chamada
   
   
+  ## Criando a função que vai quebrar a linha de código
   quebraLinha: 
+    ## Essa função irá atribuir o caractere de quebra de linha ao registrador $a0 e atribuir o valor 11 ao $v0
     li $a0, '\n'
     li $v0, 11
-    syscall
+    syscall # como o valor em $v0 é 11, será chamada a função print_char, que vai buscar o valor do caractere em $a0
+
+    ## Como o caractere em $a0 é o \n, a linha será quebrada
 
     jr $ra  # Retornará o valor da função aonde ela foi chamada
   
@@ -90,14 +94,14 @@
     move $s0, $v0  # Salva a temperatura em Fahrenheit em $s0
 
     ## Aplicando a fórmula para converter o valor em Fahrenheit para Célcius
-    li $s1, 32         # Atribui o valor 32 ao registrador $s1
-    sub $s0, $s0, $s1  # Subtrai 32 do valor em Fahrenheit que está em $s1, e salva em $s0
-    li $s1, 5          # Atribui o valor 5 ao registrador $s1
-    mult $s0, $s1      # Múltiplica o valor em $s0 por 5
-    mflo $s0           # Salva a parte inteira do resultado da multiplicação em $s0
-    li $s1, 9          # Atribui o valor 9 para o registrador $s1
-    div $s0, $s1       # Divide o valor em $s0 por 9
-    mflo $s0           # Salva a parte inteira do resultado da divisão em $s0
+    li $s1, 32              # Atribui o valor 32 ao registrador $s1
+    sub $s0, $s0, $s1       # Subtrai 32 do valor em Fahrenheit que está em $s1, e salva em $s0
+    li $s1, 5               # Atribui o valor 5 ao registrador $s1
+    mult $s0, $s1           # Múltiplica o valor em $s0 por 5
+    mflo $s0                # Salva a parte inteira do resultado da multiplicação em $s0
+    li $s1, 9               # Atribui o valor 9 para o registrador $s1
+    div $s0, $s1            # Divide o valor em $s0 por 9
+    mflo $s0                # Salva a parte inteira do resultado da divisão em $s0
 
     # A temperatura em Celsius está em $s0
     
@@ -126,8 +130,8 @@
     
     
     # Inicialmente, os registradores $s1 e $s2 armazenaram os primeiros termos da sequência
-    li $s1, 0  # Primeiro termo da sequência de fibonacci
-    li $s2, 1  # Segundo termo da sequência de fibonacci
+    li $s1, 0       # Primeiro termo da sequência de fibonacci
+    li $s2, 1       # Segundo termo da sequência de fibonacci
 
 
     # Se o enésimo termo for o primeiro ou o segundo termo, pulará o loop e irá direto para o código final
@@ -140,10 +144,10 @@
     # que está no registrado $s0
     addi $s0, $s0, -2  # Decrementar o enésimo termo em 2 (ele serve de contador para o loop)
     loop_fibonacci:
-        add $s3, $s1, $s2  # Soma os dois termos anteriores e salva o resultado no registrado $s3
-        move $s1, $s2  # O penúltimo termo passa a ser o último atual
-        move $s2, $s3  # O último termo passa a ser a soma dos dois termos anteiores
-        addi $s0, $s0, -1  # Decrementa o enésimo termo em 1 (lembrando, ele serve de contador aqui)
+        add $s3, $s1, $s2         # Soma os dois termos anteriores e salva o resultado no registrado $s3
+        move $s1, $s2             # O penúltimo termo passa a ser o último atual
+        move $s2, $s3             # O último termo passa a ser a soma dos dois termos anteiores
+        addi $s0, $s0, -1         # Decrementa o enésimo termo em 1 (lembrando, ele serve de contador aqui)
         bgtz $s0, loop_fibonacci  # Se o enésimo termo for maior que 0, repete o loop
   
   ## Criando a função que finalizará a sequência de fibonacci
@@ -167,9 +171,9 @@
     move $s0, $v0  # Salva o valor do enésimo termo em $s0
 
     # Para pegar o enésimo número par, basta multiplicar a sua posição por 2
-    li $s1, 2    # Atribui o valor 2 ao registrador $s1
+    li $s1, 2       # Atribui o valor 2 ao registrador $s1
     mult $s0, $s1   # Multiplica o enésimo termo por 2
-    mflo $s0    # Salva o resultado da multiplicação em $s0
+    mflo $s0        # Salva o resultado da multiplicação em $s0
 
     # O enésimo número par está em $s0
     move $a0, $s0
